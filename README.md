@@ -20,25 +20,6 @@ An intelligent video analysis system powered by **Qwen2-VL** that enables intera
 - **Result Caching**: Instant switching between analyzed videos
 - **Batch Processing**: Multiple 3x3 collages for comprehensive coverage
 
-## 🏗️ Architecture
-
-video-chat-system/
-├── src/ # Core modules
-│ ├── chat_engine.py # Qwen2-VL chat interface
-│ ├── video_processor.py # Frame extraction & scene detection
-│ ├── memory_manager.py # Conversation context management
-│ └── utils.py # Configuration & logging
-├── examples/ # Usage examples
-│ └── multi_video_chat.py # Main interactive system
-├── data/
-│ ├── videos/ # Input videos
-│ ├── frames/ # Extracted frames (temporary)
-│ └── results/ # JSON conversation exports
-├── logs/ # Conversation logs
-├── config.yaml # System configuration
-└── requirements.txt # Dependencies
-
-
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -230,10 +211,6 @@ collages=cached_collages # Already in memory
 ## 🤝 Contributing
 
 Contributions welcome! Please feel free to submit pull requests.
-
-## 📄 License
-
-[Your License Here - e.g., MIT]
 
 ## 👥 Contributors
 
