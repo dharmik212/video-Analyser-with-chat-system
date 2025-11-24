@@ -1,0 +1,80 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+venv_old/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Data & Output (Don't commit large files/temp data)
+data/frames/*
+!data/frames/.gitkeep
+data/videos/*.mp4
+data/videos/*.avi
+data/videos/*.mov
+data/videos/*.mkv
+data/videos/*.webm
+data/videos/*.flv
+!data/videos/.gitkeep
+data/results/*.json
+!data/results/.gitkeep
+logs/*.json
+logs/*.log
+!logs/.gitkeep
+*.log
+
+# Model Cache (Hugging Face models are huge!)
+models/
+.cache/
+transformers_cache/
+huggingface/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+*.bak
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Temporary files
+*.tmp
+*.temp
+~*

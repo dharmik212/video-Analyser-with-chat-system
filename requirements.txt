@@ -1,0 +1,23 @@
+# Core ML frameworks
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+
+# Transformers & Qwen2-VL
+transformers>=4.37.0
+qwen-vl-utils>=0.0.8
+accelerate>=0.25.0
+
+# Video processing
+opencv-python>=4.8.0
+scenedetect[opencv]>=0.6.3
+
+# Image processing
+pillow>=10.0.0
+numpy>=1.24.0
+
+# Utilities
+pyyaml>=6.0
+tqdm>=4.65.0
+colorlog>=6.7.0
+python-dotenv>=1.0.0

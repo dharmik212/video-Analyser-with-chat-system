@@ -1,0 +1,32 @@
+# Model Configuration
+model:
+  name: "Qwen/Qwen2-VL-2B-Instruct"
+  device: "cuda"
+  dtype: "float16"
+  max_new_tokens: 512
+  temperature: 0.7
+
+# Frame Extraction - FULLY DYNAMIC
+frames:
+  method: "scene"
+  frames_per_minute: 4  # Core sampling rate
+  min_frames: 4  # Minimum (even for 1-sec videos)
+  max_frames: null  # ← No limit! (or set very high like 1000)
+  quality_threshold: 30.0
+  
+  # Batch processing settings for large frame sets
+  collage_batch_size: 9  # Process 9 frames at a time (3x3 grid)
+
+# Rest unchanged...
+conversation:
+  max_history: 10
+  context_window: 4096
+  
+paths:
+  videos_dir: "data/videos"
+  frames_dir: "data/frames"
+  logs_dir: "logs"
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
