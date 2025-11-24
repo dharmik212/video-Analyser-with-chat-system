@@ -42,7 +42,7 @@ class VideoChatEngine:
         self._load_model()
         self.current_images = None
         self.collage_cache = None
-        self.frame_paths = None  # Track frame paths for cleanup
+        self.frame_paths = None 
 
     
     def _load_model(self):

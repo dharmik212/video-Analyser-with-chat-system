@@ -67,7 +67,7 @@ def preprocess_all_videos(video_files, processor, engine, config):
                 'info': video_info,
                 'frames': frames,
                 'collage': engine.collage_cache,
-                'images': engine.current_images,  # ← FIX: Store images too
+                'images': engine.current_images,  
                 'analyzed': False,
                 'initial_analysis': None
             }

@@ -23,7 +23,7 @@ class VideoProcessor:
                   video_path: str, 
                   frames_per_minute: int = 4,
                   min_frames: int = 4,
-                  max_frames: int = None,  # ← None = no limit
+                  max_frames: int = None, 
                   method: str = "scene") -> List[Path]:
         """
         Extract frames dynamically based on video duration.

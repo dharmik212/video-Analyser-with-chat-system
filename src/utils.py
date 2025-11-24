@@ -14,10 +14,6 @@ def load_config(config_path: str = "config.yaml") -> Dict[str, Any]:
     
     if not config_file.exists():
         raise FileNotFoundError(f"Config file not found: {config_path}")
-    
-    # ═══════════════════════════════════════════════════════
-    # FIX: Explicitly use UTF-8 encoding (Windows fix)
-    # ═══════════════════════════════════════════════════════
     with open(config_file, 'r', encoding='utf-8') as f:
         config = yaml.safe_load(f)
     
