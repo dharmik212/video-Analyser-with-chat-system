@@ -248,7 +248,8 @@ Contributions welcome! Please feel free to submit pull requests.
 
 ## 📧 Contact
 
-[Your Contact Information]
+Dharmik Kurlawala
+kurlawaladharmik@gmail.com
 
 ---
 
