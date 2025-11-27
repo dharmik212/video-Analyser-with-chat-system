@@ -31,6 +31,21 @@ Pre-Processing Phase (Frame Extraction) → Selection Phase (Lazy Loading) → C
 
 ### Installation
 
+Create virtual environment:
+
+```bash
+python -m venv venv
+.\venv\Scripts\activate
+```
+```bash
+Windows:
+.\venv\Scripts\activate
+```
+```bash
+Linux/Mac:
+source venv/bin/activate
+```
+
 Install dependencies:
 
 ```bash
