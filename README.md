@@ -35,8 +35,8 @@ Create virtual environment:
 
 ```bash
 python -m venv venv
-.\venv\Scripts\activate
 ```
+
 ```bash
 Windows:
 .\venv\Scripts\activate
