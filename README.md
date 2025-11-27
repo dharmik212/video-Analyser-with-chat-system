@@ -1,233 +1,320 @@
-# 🎬 Multi-Video Chat System
+# Multi-Video Chat System
 
-An intelligent video analysis system powered by **Qwen2-VL** that enables interactive Q&A across multiple videos with dynamic frame extraction and batch processing.
+An intelligent video analysis platform powered by Qwen2-VL, enabling interactive Q&A across multiple videos with dynamic frame extraction and batch processing.
 
-## ✨ Features
+## Why This Matters
 
-### Core Capabilities
-- 🎥 **Multi-Video Processing** - Pre-process multiple videos simultaneously
-- 🔍 **Intelligent Frame Extraction** - Scene-based detection with dynamic scaling (unlimited frames)
-- 💬 **Interactive Chat** - Natural language Q&A about video content
-- 🚀 **GPU Acceleration** - CUDA-optimized for fast inference (RTX 4060 tested)
-- 📊 **Batch Collage Processing** - Handles videos of any length automatically
-- 💾 **Conversation History** - Save and export Q&A sessions as JSON
-- 🧹 **Auto Cleanup** - Automatic frame management on exit
+Transform video data into structured, queryable information for rapid analysis and seamless integration with AI and machine learning pipelines.
 
-### Technical Highlights
-- **Dynamic Frame Scaling**: Extracts frames based on video duration (no arbitrary limits)
-- **Scene Detection**: Uses PySceneDetect to find key moments
-- **Lazy Loading**: AI analysis only when video is selected
-- **Result Caching**: Instant switching between analyzed videos
-- **Batch Processing**: Multiple 3x3 collages for comprehensive coverage
+- Intelligent analysis: Automatically extract key frames using scene detection—no arbitrary limits
+- Interactive exploration: Natural language Q&A about video content in real time
+- Efficient processing: GPU-accelerated inference with result caching for instant switching
+- Scalable architecture: Handles videos of any length with dynamic frame scaling and batch collage processing
 
-## 🚀 Quick Start
+## Architecture Overview
+
+```
+Pre-Processing Phase (Frame Extraction) → Selection Phase (Lazy Loading) → Chat Phase (Q&A)
+├─ Extract frames via scene detection    ├─ Load video on first select  ├─ Answer questions
+├─ Generate collage batches              ├─ Run AI analysis once       ├─ Use cached frames
+└─ Store in memory (ready for use)       └─ Cache results              └─ Stream responses
+```
+
+## Quick Start
 
 ### Prerequisites
 
-- **Python 3.11+** (required for CUDA support)
-- **NVIDIA GPU** with CUDA 12.0+ (optional but highly recommended)
-- **8GB+ RAM** (16GB+ recommended for long videos)
-- **10GB+ free disk space** (for model cache)
+- Python 3.11+ (required for CUDA support)
+- NVIDIA GPU with CUDA 12.0+ (optional but highly recommended)
+- 8GB+ RAM (16GB+ recommended for long videos)
+- 10GB+ free disk space (for model cache)
 
 ### Installation
 
-1. **Clone the repository:**
-git clone <repository-url>
-cd video-chat-system
+Install dependencies:
 
-2. **Create virtual environment:**
-python -m venv venv
+```bash
+uv pip install -r requirements.txt
+```
 
-Windows:
-.\venv\Scripts\activate
+Or using pip:
 
-Linux/Mac:
-source venv/bin/activate
-
-3. **Install PyTorch with CUDA** (for GPU acceleration):
-CUDA 12.1
+```bash
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-
-CPU only (slower)
-pip install torch torchvision torchaudio
-
-4. **Install dependencies:**
 pip install -r requirements.txt
+```
 
-5. **Place videos in `data/videos/` folder**
+Place videos in the `data/videos/` folder.
 
 ### Usage
 
-**Run the multi-video chat system:**
+Run the multi-video chat system:
+
+```bash
 python examples/multi_video_chat.py data/videos/
+```
 
-### Commands
+## 1. Pre-Processing Phase
 
-| Command | Description |
-|---------|-------------|
-| `list` | Show all available videos |
-| `select <name>` or `<name>` | Switch to a video |
-| `back` | Return to video selection |
-| `info` | Show current video details |
-| `history` | Show conversation history |
-| `save` | Save all conversations |
-| `quit` | Exit and cleanup |
+Extract frames from all videos simultaneously using scene detection.
 
-### Example Session
+**What happens:**
 
+- OpenCV and PySceneDetect identify key moments in each video
+- Dynamic frame scaling: Frames are extracted based on video duration (no artificial limits)
+- Collage batching: Multiple 3x3 grids for comprehensive coverage
+- Results stored in memory, ready for analysis
+
+**Performance Benchmarks (RTX 4060):**
+
+| Video Duration | Frames Extracted | Collages Created | Extraction Time |
+|---------------|------------------|------------------|----------------|
+| 2 minutes     | 37 scenes        | 5 batches        | ~15s           |
+| 30 minutes    | 120+ scenes      | 14+ batches      | ~45s           |
+
+### System Initialization Example
+
+```text
 $ python examples/multi_video_chat.py data/videos/
 
 ======================================================================
-🎬 MULTI-VIDEO CHAT SYSTEM
-📁 Directory: data/videos
-📹 Videos found: 4
+MULTI-VIDEO CHAT SYSTEM
+Directory: data/videos
+Videos found: 4
 
-🔧 Initializing system...
-✅ Model loaded successfully!
+Initializing system...
+Model loaded successfully!
 
 ======================================================================
-🔄 PRE-PROCESSING ALL VIDEOS
+PRE-PROCESSING ALL VIDEOS
 [1/4] Processing: football_match.mp4
 ✓ Frames extracted: 37
 ✓ Duration: 120.0s
 
-✅ Pre-processing complete! 4 videos ready.
+Pre-processing complete! 4 videos ready.
+```
 
-======================================================================
-💬 INTERACTIVE CHAT MODE
-👤 You: football_match.mp4
+## 2. Selection Phase
 
-🤖 Analyzing football_match.mp4 for the first time...
+Switch between videos and trigger lazy AI analysis on first selection.
 
-✅ Switched to: football_match.mp4
+**Commands:**
 
-📊 Initial Analysis:
-The video captures a soccer match between Brazil and Morocco...
+| Command       | Description                             |
+|---------------|-----------------------------------------|
+| list          | Show all available videos               |
+| select <name> | Switch to a video and trigger analysis  |
+| info          | Show current video details and frame count |
+| back          | Return to video selection menu          |
+| history       | Display full conversation history       |
+| save          | Export all conversations as JSON        |
+| quit          | Exit and cleanup cached frames          |
 
-👤 [football_match.mp4] You: Who scored the goal?
+### First Selection (AI Analysis Triggered)
 
-🤖 Assistant: Based on the video analysis, Brazil scored...
-(answered in 3.4s)
+```text
+You: football_match.mp4
 
-👤 [football_match.mp4] You: back
+Analyzing football_match.mp4 for the first time...
 
-⬅️ Returning to video selection
+Switched to: football_match.mp4
 
-👤 You: quit
+Initial Analysis (91s):
+The video captures a soccer match between Brazil and Morocco in the FIFA World Cup. Key moments include goals, defensive plays, and crowd reactions throughout the 120-minute match.
+```
 
-🗑️ Cleaning up frames...
-💾 Saving all conversations...
-✓ football_match_conversation_20251123_214530.json
+**How it works:**
 
-✅ Saved 1 conversation(s)
+- Collages loaded into memory (from pre-processing)
+- Qwen2-VL processes all collage batches on first selection
+- Results cached for instant follow-up questions
+- Switching back to the same video uses the cache—no re-analysis required
 
-👋 Goodbye!
+## 3. Chat Phase
 
-## ⚙️ Configuration
+Ask natural language questions about the selected video.
 
-Edit `config.yaml` to customize behavior:
+### Interactive Q&A Session
 
+```text
+[football_match.mp4] You: Who scored the goal?
+
+A: Based on the video analysis, Brazil's striker Neymar scored a spectacular goal in the 67th minute with a long-range shot from outside the penalty box. Morocco equalized shortly after with a header from a corner kick.
+(Answered in 3.4s)
+
+[football_match.mp4] You: What was the final score?
+
+A: The match ended 2-2 with Brazil scoring in the 67th and 89th minutes, while Morocco responded with goals in the 72nd and 85th minutes.
+(Answered in 2.8s)
+
+[football_match.mp4] You: back
+
+Returning to video selection
+```
+
+**Performance Characteristics:**
+
+- Initial analysis: 40-50s per video (processes all collages)
+- Follow-up questions: 3-4s each (cache used)
+- Parallel pre-processing: All videos get frames extracted simultaneously
+
+## Configuration
+
+Customize behavior by editing `config.yaml`:
+
+```yaml
 model:
-name: "Qwen/Qwen2-VL-2B-Instruct"
-device: "cuda" # or "cpu"
-dtype: "float16" # GPU: float16, CPU: float32
-max_new_tokens: 512
-temperature: 0.7
+  name: "Qwen/Qwen2-VL-2B-Instruct"
+  device: "cuda"           # or "cpu"
+  dtype: "float16"         # GPU: float16, CPU: float32
+  max_new_tokens: 512
+  temperature: 0.7
 
 frames:
-method: "scene" # or "uniform"
-frames_per_minute: 4 # Core sampling rate
-min_frames: 4
-max_frames: null # null = unlimited (scales with video length)
-collage_batch_size: 9 # 3x3 grid per batch
+  method: "scene"          # or "uniform"
+  frames_per_minute: 4     # Core sampling rate
+  min_frames: 4
+  max_frames: null         # null = unlimited (scales with video length)
+  collage_batch_size: 9    # 3x3 grid per batch
 
+processing:
+  parallel: 4              # Concurrent video processing threads
+  cleanup_on_exit: true    # Auto-delete extracted frames
+```
 
-## 📊 Performance
+## Features
+
+**Core Capabilities**
+- Multi-video processing with parallel execution
+- Scene-based frame extraction with dynamic scaling
+- Interactive chat interface for video content
+- GPU acceleration (CUDA support)
+- Batch collage processing for long videos
+- Result caching for efficient switching between videos
+- Conversation history saved and exported as JSON
+- Automatic frame cleanup
+
+**Technical Highlights**
+- Dynamic frame extraction (no arbitrary limits)
+- Batch collages for each segment to maximize context
+- Lazy AI analysis on-demand, per-video
+- Conversation export for documentation or research
+
+## Output & History Management
+
+### Save Conversations
+
+```text
+You: save
+
+Saving all conversations...
+football_match_conversation_20251123_214530.json
+documentary_conversation_20251123_214530.json
+
+Saved 2 conversation(s)
+```
+
+**JSON Format Example:**
+
+```json
+{
+  "video": "football_match.mp4",
+  "duration": 120.0,
+  "frames_extracted": 37,
+  "timestamp": "2025-11-23T21:45:30",
+  "conversation": [
+    {
+      "question": "Who scored the goal?",
+      "answer": "Brazil's striker Neymar scored...",
+      "processing_time": 3.4
+    }
+  ]
+}
+```
+
+## Technical Stack
+
+| Component            | Technology                          |
+|----------------------|-------------------------------------|
+| Vision-Language Model| Qwen2-VL-2B-Instruct (Alibaba Cloud)|
+| Frame Extraction     | OpenCV, PySceneDetect               |
+| Image Processing     | Pillow (PIL)                        |
+| Deep Learning        | PyTorch, Transformers               |
+| GPU Acceleration     | CUDA 12.1                           |
+
+## Project Structure
+
+```
+.
+├── examples/
+│   └── multi_video_chat.py
+├── src/
+│   ├── video_processor.py
+│   ├── chat_engine.py
+│   └── conversation_manager.py
+├── config.yaml
+├── requirements.txt
+└── data/videos/
+```
+
+## Performance Benchmarks
 
 **Hardware: RTX 4060 (8GB VRAM)**
 
-**2-minute football match (37 scenes detected):**
-- Frame extraction: ~15s
-- Frames extracted: 37 (all scenes)
+2-minute football match:
+- Frame extraction: ~15s (37 scenes detected)
 - Collages created: 5 (3x3 grids)
 - Initial analysis: ~91s
 - Follow-up questions: ~3-4s each
 
-**30-minute video (120+ scenes):**
-- Frames extracted: 120+
+30-minute documentary:
+- Frame extraction: ~45s (120+ scenes)
 - Collages: 14+ batches
-- Questions: ~40-50s each (processes all collages)
+- Initial analysis: ~180s
+- Follow-up questions: ~40-50s each
 
-## 🔬 How It Works
+## Project Status
 
-### 1. Pre-Processing Phase (No AI, Fast)
-for video in videos:
-frames = extract_frames(video) # OpenCV + PySceneDetect
-collages = create_collages(frames) # PIL
-store_in_memory(frames, collages) # Ready for analysis
+Current Version: 1.0.0
 
-### 2. Selection Phase (Lazy Loading)
-if user_selects(video):
-if not already_analyzed(video):
-analysis = run_ai_analysis(video) # First time only
-cache_result(analysis)
-show_analysis()
+**Completed Features**
+- Multi-video pre-processing with parallel execution
+- Unlimited, dynamic frame extraction
+- Scene-based key moment detection
+- Batch collage processing (3x3 grids)
+- Interactive chat interface
+- Lazy AI analysis with first selection
+- Result caching for fast switching
+- JSON export of conversations
+- Automatic frame cleanup
 
-### 3. Chat Phase (Fast Q&A)
-answer = chat_with_video(
-question=user_question,
-collages=cached_collages # Already in memory
-)
+**Planned Features**
+- Web UI (Gradio or Streamlit)
+- PDF/HTML report generation
+- Video upscaling and denoising
+- Multi-model support (GPT-4V, Claude Vision)
+- Real-time streaming analysis
 
-## 🛠️ Technical Stack
+## Contributing
 
-- **Vision-Language Model**: Qwen2-VL-2B-Instruct (Alibaba Cloud)
-- **Frame Extraction**: OpenCV + PySceneDetect
-- **Image Processing**: Pillow (PIL)
-- **Deep Learning**: PyTorch + Transformers
-- **GPU Acceleration**: CUDA 12.1
+Contributions are welcome. Please submit pull requests or open issues.
 
-## 📝 Project Status
+## Credits
 
-**Current Version**: 1.0.0
+- Dharmik Kurlawala — Development & Implementation
+- Dmitry Petrov — Project Guidance
 
-**Completed Features:**
-- ✅ Multi-video pre-processing
-- ✅ Dynamic frame extraction (unlimited)
-- ✅ Scene-based detection
-- ✅ Batch collage processing
-- ✅ Interactive chat interface
-- ✅ Lazy AI analysis
-- ✅ Result caching
-- ✅ Conversation export
-- ✅ Auto frame cleanup
+## Acknowledgments
 
-**Planned Features:**
-- 🔄 Web UI (Gradio interface)
-- 🔄 PDF/HTML report generation
-- 🔄 Video preprocessing (upscaling, denoising)
-- 🔄 Multi-model support (GPT-4V, Claude Vision)
+- Qwen2-VL by Alibaba Cloud
+- PySceneDetect for scene-based frame selection
+- Hugging Face Transformers library
 
-## 🤝 Contributing
+## Contact
 
-Contributions welcome! Please feel free to submit pull requests.
-
-## 👥 Contributors
-
-- **Dharmik** - Development & Implementation
-- **Dmitry Petrov** - Project Guidance
-
-## 🙏 Acknowledgments
-
-- [Qwen2-VL](https://github.com/QwenLM/Qwen2-VL) by Alibaba Cloud
-- [PySceneDetect](https://github.com/Breakthrough/PySceneDetect) for intelligent frame selection
-- [Hugging Face Transformers](https://github.com/huggingface/transformers) library
-
-## 📧 Contact
-
-Dharmik Kurlawala
+Dharmik Kurlawala  
 kurlawaladharmik@gmail.com
 
 ---
 
-**Built using Qwen2-VL**
+Built using Qwen2-VL Vision-Language Model
